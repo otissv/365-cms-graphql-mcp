@@ -1,0 +1,21 @@
+{
+  "name": "cms-graphql-mcp",
+  "private": true,
+  "version": "0.2.0",
+  "description": "MCP server that HMAC-signs and proxies 365 CMS GraphQL for agents",
+  "type": "module",
+  "bin": {
+    "cms-graphql-mcp": "./src/server.js"
+  },
+  "scripts": {
+    "start": "node --env-file=.env src/server.js",
+    "dev": "node --env-file=.env --watch src/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "zod": "^3.25.76"
+  }
+}
