@@ -42,8 +42,7 @@ Example (create):
 ```json
 {
   "input": {
-    "slug": "contact-us",
-    "name": "Contact Us",
+    "internalName": "contact-us",
     "description": "Site contact form"
   },
   "stage": "draft"
@@ -54,7 +53,7 @@ Example (add field):
 
 ```json
 {
-  "formSlug": "contact-us",
+  "formInternalName": "contact-us",
   "input": {
     "formId": "<form-id>",
     "formSectionId": "<section-id>",

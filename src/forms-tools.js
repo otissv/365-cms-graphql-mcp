@@ -15,16 +15,14 @@ const formFieldTypeSchema = z.enum([
 ])
 
 const formCreateInputSchema = z.object({
-  slug: z.string().min(1),
-  name: z.string().min(1),
+  internalName: z.string().min(1),
   notes: z.string().optional(),
   description: z.string().optional(),
   sectionOrder: z.array(z.string()).optional(),
 })
 
 const formUpdateInputSchema = z.object({
-  slug: z.string().min(1).optional(),
-  name: z.string().min(1).optional(),
+  internalName: z.string().min(1).optional(),
   notes: z.string().optional(),
   description: z.string().optional(),
   status: formStatusSchema.optional(),
@@ -72,8 +70,7 @@ const formFieldUpdateInputSchema = z.object({
 const FORM_SELECTION = `{
   id
   organizationId
-  slug
-  name
+  internalName
   description
   notes
   status
@@ -186,19 +183,19 @@ export function registerFormsMutationTools(server, config, requestGraphql) {
     {
       title: "Create form section",
       description:
-        "Mutation createFormSection. Requires update on cms:forms:<formId>:<stage>. Pass formSlug and input.formId.",
+        "Mutation createFormSection. Requires update on cms:forms:<formId>:<stage>. Pass formInternalName and input.formId.",
       inputSchema: {
-        formSlug: z.string().min(1),
+        formInternalName: z.string().min(1),
         input: formSectionCreateInputSchema,
         stage: stageSchema,
       },
     },
-    async ({ formSlug, input, stage }) =>
+    async ({ formInternalName, input, stage }) =>
       requestGraphql(config, {
-        query: `mutation McpCreateFormSection($formSlug: String!, $input: formSectionCreateInput!) {
-          createFormSection(formSlug: $formSlug, input: $input) ${SECTION_SELECTION}
+        query: `mutation McpCreateFormSection($formInternalName: String!, $input: formSectionCreateInput!) {
+          createFormSection(formInternalName: $formInternalName, input: $input) ${SECTION_SELECTION}
         }`,
-        variables: { formSlug, input },
+        variables: { formInternalName, input },
         operationName: "McpCreateFormSection",
         stage,
       })
@@ -212,18 +209,18 @@ export function registerFormsMutationTools(server, config, requestGraphql) {
         "Mutation updateFormSection. Requires update on cms:forms:<formId>:<stage>.",
       inputSchema: {
         id: z.string().min(1),
-        formSlug: z.string().min(1),
+        formInternalName: z.string().min(1),
         formId: z.string().min(1),
         input: formSectionUpdateInputSchema,
         stage: stageSchema,
       },
     },
-    async ({ id, formSlug, formId, input, stage }) =>
+    async ({ id, formInternalName, formId, input, stage }) =>
       requestGraphql(config, {
-        query: `mutation McpUpdateFormSection($id: ID!, $formSlug: String!, $formId: ID!, $input: formSectionUpdateInput!) {
-          updateFormSection(id: $id, formSlug: $formSlug, formId: $formId, input: $input) ${SECTION_SELECTION}
+        query: `mutation McpUpdateFormSection($id: ID!, $formInternalName: String!, $formId: ID!, $input: formSectionUpdateInput!) {
+          updateFormSection(id: $id, formInternalName: $formInternalName, formId: $formId, input: $input) ${SECTION_SELECTION}
         }`,
-        variables: { id, formSlug, formId, input },
+        variables: { id, formInternalName, formId, input },
         operationName: "McpUpdateFormSection",
         stage,
       })
@@ -237,17 +234,17 @@ export function registerFormsMutationTools(server, config, requestGraphql) {
         "Mutation deleteFormSection. Requires update on cms:forms:<formId>:<stage>.",
       inputSchema: {
         id: z.string().min(1),
-        formSlug: z.string().min(1),
+        formInternalName: z.string().min(1),
         formId: z.string().min(1),
         stage: stageSchema,
       },
     },
-    async ({ id, formSlug, formId, stage }) =>
+    async ({ id, formInternalName, formId, stage }) =>
       requestGraphql(config, {
-        query: `mutation McpDeleteFormSection($id: ID!, $formSlug: String!, $formId: ID!) {
-          deleteFormSection(id: $id, formSlug: $formSlug, formId: $formId)
+        query: `mutation McpDeleteFormSection($id: ID!, $formInternalName: String!, $formId: ID!) {
+          deleteFormSection(id: $id, formInternalName: $formInternalName, formId: $formId)
         }`,
-        variables: { id, formSlug, formId },
+        variables: { id, formInternalName, formId },
         operationName: "McpDeleteFormSection",
         stage,
       })
@@ -261,18 +258,18 @@ export function registerFormsMutationTools(server, config, requestGraphql) {
         "Mutation duplicateFormSection. Requires update on cms:forms:<formId>:<stage>.",
       inputSchema: {
         id: z.string().min(1),
-        formSlug: z.string().min(1),
+        formInternalName: z.string().min(1),
         formId: z.string().min(1),
         name: z.string().min(1),
         stage: stageSchema,
       },
     },
-    async ({ id, formSlug, formId, name, stage }) =>
+    async ({ id, formInternalName, formId, name, stage }) =>
       requestGraphql(config, {
-        query: `mutation McpDuplicateFormSection($id: ID!, $formSlug: String!, $formId: ID!, $name: String!) {
-          duplicateFormSection(id: $id, formSlug: $formSlug, formId: $formId, name: $name) ${SECTION_SELECTION}
+        query: `mutation McpDuplicateFormSection($id: ID!, $formInternalName: String!, $formId: ID!, $name: String!) {
+          duplicateFormSection(id: $id, formInternalName: $formInternalName, formId: $formId, name: $name) ${SECTION_SELECTION}
         }`,
-        variables: { id, formSlug, formId, name },
+        variables: { id, formInternalName, formId, name },
         operationName: "McpDuplicateFormSection",
         stage,
       })
@@ -285,17 +282,17 @@ export function registerFormsMutationTools(server, config, requestGraphql) {
       description:
         "Mutation createFormField. Requires update on cms:forms:<formId>:<stage>. type is formFieldType (text|paragraph|number|multiSelect|select|file|date|time). Returns fieldOptions.",
       inputSchema: {
-        formSlug: z.string().min(1),
+        formInternalName: z.string().min(1),
         input: formFieldCreateInputSchema,
         stage: stageSchema,
       },
     },
-    async ({ formSlug, input, stage }) =>
+    async ({ formInternalName, input, stage }) =>
       requestGraphql(config, {
-        query: `mutation McpCreateFormField($formSlug: String!, $input: formFieldCreateInput!) {
-          createFormField(formSlug: $formSlug, input: $input) ${FIELD_SELECTION}
+        query: `mutation McpCreateFormField($formInternalName: String!, $input: formFieldCreateInput!) {
+          createFormField(formInternalName: $formInternalName, input: $input) ${FIELD_SELECTION}
         }`,
-        variables: { formSlug, input },
+        variables: { formInternalName, input },
         operationName: "McpCreateFormField",
         stage,
       })
@@ -309,18 +306,18 @@ export function registerFormsMutationTools(server, config, requestGraphql) {
         "Mutation updateFormField. Requires update on cms:forms:<formId>:<stage>. Optional formSectionId reparents within the form; type is formFieldType.",
       inputSchema: {
         id: z.string().min(1),
-        formSlug: z.string().min(1),
+        formInternalName: z.string().min(1),
         formId: z.string().min(1),
         input: formFieldUpdateInputSchema,
         stage: stageSchema,
       },
     },
-    async ({ id, formSlug, formId, input, stage }) =>
+    async ({ id, formInternalName, formId, input, stage }) =>
       requestGraphql(config, {
-        query: `mutation McpUpdateFormField($id: ID!, $formSlug: String!, $formId: ID!, $input: formFieldUpdateInput!) {
-          updateFormField(id: $id, formSlug: $formSlug, formId: $formId, input: $input) ${FIELD_SELECTION}
+        query: `mutation McpUpdateFormField($id: ID!, $formInternalName: String!, $formId: ID!, $input: formFieldUpdateInput!) {
+          updateFormField(id: $id, formInternalName: $formInternalName, formId: $formId, input: $input) ${FIELD_SELECTION}
         }`,
-        variables: { id, formSlug, formId, input },
+        variables: { id, formInternalName, formId, input },
         operationName: "McpUpdateFormField",
         stage,
       })
@@ -334,17 +331,17 @@ export function registerFormsMutationTools(server, config, requestGraphql) {
         "Mutation deleteFormField. Requires update on cms:forms:<formId>:<stage>.",
       inputSchema: {
         id: z.string().min(1),
-        formSlug: z.string().min(1),
+        formInternalName: z.string().min(1),
         formId: z.string().min(1),
         stage: stageSchema,
       },
     },
-    async ({ id, formSlug, formId, stage }) =>
+    async ({ id, formInternalName, formId, stage }) =>
       requestGraphql(config, {
-        query: `mutation McpDeleteFormField($id: ID!, $formSlug: String!, $formId: ID!) {
-          deleteFormField(id: $id, formSlug: $formSlug, formId: $formId)
+        query: `mutation McpDeleteFormField($id: ID!, $formInternalName: String!, $formId: ID!) {
+          deleteFormField(id: $id, formInternalName: $formInternalName, formId: $formId)
         }`,
-        variables: { id, formSlug, formId },
+        variables: { id, formInternalName, formId },
         operationName: "McpDeleteFormField",
         stage,
       })
@@ -358,18 +355,18 @@ export function registerFormsMutationTools(server, config, requestGraphql) {
         "Mutation duplicateFormField. Requires update on cms:forms:<formId>:<stage>.",
       inputSchema: {
         id: z.string().min(1),
-        formSlug: z.string().min(1),
+        formInternalName: z.string().min(1),
         formId: z.string().min(1),
         name: z.string().min(1),
         stage: stageSchema,
       },
     },
-    async ({ id, formSlug, formId, name, stage }) =>
+    async ({ id, formInternalName, formId, name, stage }) =>
       requestGraphql(config, {
-        query: `mutation McpDuplicateFormField($id: ID!, $formSlug: String!, $formId: ID!, $name: String!) {
-          duplicateFormField(id: $id, formSlug: $formSlug, formId: $formId, name: $name) ${FIELD_SELECTION}
+        query: `mutation McpDuplicateFormField($id: ID!, $formInternalName: String!, $formId: ID!, $name: String!) {
+          duplicateFormField(id: $id, formInternalName: $formInternalName, formId: $formId, name: $name) ${FIELD_SELECTION}
         }`,
-        variables: { id, formSlug, formId, name },
+        variables: { id, formInternalName, formId, name },
         operationName: "McpDuplicateFormField",
         stage,
       })
