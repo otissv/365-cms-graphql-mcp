@@ -26,14 +26,14 @@ try {
 
 const server = new McpServer({
   name: "365-cms-graphql",
-  version: "0.2.0",
+  version: "0.3.0",
   instructions: [
     "This MCP server HMAC-signs requests to 365 CMS GraphQL.",
     `Default upstream: ${upstreamUrl.toString()}`,
-    "Workflow: graphql_health, then graphql_list_types, then graphql_describe_type on Query or Mutation, then graphql_query for ad-hoc ops.",
-    "Form mutations: use graphql_create_form / graphql_update_form / graphql_delete_form and graphql_*_form_section / graphql_*_form_field tools (structured args). They map to CMS Mutation fields on draft/published.",
-    "Form ACL: create on cms:forms:<stage>; update/delete on cms:forms:<formId>:<stage>; section/field writes need update on that form. Stage access is also required.",
-    'Optional stage is "draft" or "published" and only rewrites the last path segment when the upstream URL already ends with those names. Prefer draft for form writes.',
+    "Workflow: graphql_health, then graphql_list_types, then graphql_describe_type on Query or Mutation, then dedicated graphql_* mutation tools or graphql_query for ad-hoc ops.",
+    "Dedicated mutation tools cover forms (+ submissions), workspaces, collections, columns, documents (+ publish/rollback), pages (+ sections/fields/seo/redirects/publish/rollback), organization, members, invitations, and profile.",
+    "Mutations are not stage-versioned; stage only selects the endpoint and ACL key suffix. Prefer draft for writes. Stage access plus the matching resource action is required.",
+    'Optional stage is "draft" or "published" and only rewrites the last path segment when the upstream URL already ends with those names.',
     "Do not send Origin, Cookie, or Fetch Metadata headers; this process signs server-to-server.",
   ].join(" "),
 })

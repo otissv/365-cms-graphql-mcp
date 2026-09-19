@@ -5,7 +5,14 @@ import {
   formatTypeRef,
   toolResultText,
 } from "./format.js"
+import { registerCollectionsMutationTools } from "./collections-tools.js"
+import { registerColumnsMutationTools } from "./columns-tools.js"
+import { registerDocumentsMutationTools } from "./documents-tools.js"
+import { registerFormSubmissionMutationTools } from "./form-submissions-tools.js"
 import { registerFormsMutationTools } from "./forms-tools.js"
+import { registerOrganizationMutationTools } from "./organization-tools.js"
+import { registerPagesMutationTools } from "./pages-tools.js"
+import { registerWorkspacesMutationTools } from "./workspaces-tools.js"
 import {
   DESCRIBE_TYPE_QUERY,
   LIST_TYPES_QUERY,
@@ -144,7 +151,7 @@ export function registerGraphqlTools(server, config) {
     {
       title: "Describe GraphQL type",
       description:
-        "Introspect one GraphQL type by name (for example Query, Mutation, formCreateInput, or a connection type). Returns fields, args, and nested type refs. For form writes prefer the graphql_*_form* tools.",
+        "Introspect one GraphQL type by name (for example Query, Mutation, formCreateInput, or a connection type). Returns fields, args, and nested type refs. Prefer dedicated graphql_* mutation tools for writes.",
       inputSchema: {
         name: z.string().min(1),
         stage: stageSchema,
@@ -174,7 +181,7 @@ export function registerGraphqlTools(server, config) {
     {
       title: "Execute GraphQL",
       description:
-        "Execute a GraphQL query or mutation against CMS GraphQL. The MCP process HMAC-signs the request. For forms, prefer dedicated tools (graphql_create_form, graphql_update_form, graphql_delete_form, graphql_*_form_section, graphql_*_form_field). Prefer graphql_list_types / graphql_describe_type before ad-hoc operations. Pass GraphQL variables as a JSON object, not inline strings when values are dynamic.",
+        "Execute a GraphQL query or mutation against CMS GraphQL. The MCP process HMAC-signs the request. Prefer dedicated graphql_* mutation tools for known writes (forms, workspaces, collections, columns, documents, pages, org/members/invitations/profile). Prefer graphql_list_types / graphql_describe_type before ad-hoc operations. Pass GraphQL variables as a JSON object, not inline strings when values are dynamic.",
       inputSchema: {
         query: z.string().min(1),
         variables: variablesSchema,
@@ -187,4 +194,12 @@ export function registerGraphqlTools(server, config) {
   )
 
   registerFormsMutationTools(server, config, requestGraphql)
+  registerFormSubmissionMutationTools(server, config, requestGraphql)
+  registerWorkspacesMutationTools(server, config, requestGraphql)
+  registerCollectionsMutationTools(server, config, requestGraphql)
+  registerColumnsMutationTools(server, config, requestGraphql)
+  registerDocumentsMutationTools(server, config, requestGraphql)
+  registerPagesMutationTools(server, config, requestGraphql)
+  registerOrganizationMutationTools(server, config, requestGraphql)
 }
+

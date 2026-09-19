@@ -12,63 +12,28 @@ This folder is outside the CMS pnpm workspace (`ignore-workspace=true`). It is n
 | `graphql_list_types` | Introspect root types and type names by kind |
 | `graphql_describe_type` | Introspect one type (fields, args, inputs, enums) |
 | `graphql_query` | Execute a GraphQL query or mutation |
-| `graphql_create_form` | Mutation `createForm` |
-| `graphql_update_form` | Mutation `updateForm` |
-| `graphql_delete_form` | Mutation `deleteForm` |
-| `graphql_create_form_section` | Mutation `createFormSection` |
-| `graphql_update_form_section` | Mutation `updateFormSection` |
-| `graphql_delete_form_section` | Mutation `deleteFormSection` |
-| `graphql_duplicate_form_section` | Mutation `duplicateFormSection` |
-| `graphql_create_form_field` | Mutation `createFormField` |
-| `graphql_update_form_field` | Mutation `updateFormField` |
-| `graphql_delete_form_field` | Mutation `deleteFormField` |
-| `graphql_duplicate_form_field` | Mutation `duplicateFormField` |
+| `graphql_create_form` / `graphql_update_form` / `graphql_delete_form` | Form CRUD |
+| `graphql_*_form_section` / `graphql_*_form_field` | Form section/field create/update/delete/duplicate |
+| `graphql_create_form_submission` / `graphql_delete_form_submission` | Form submissions |
+| `graphql_create_workspace` / `graphql_update_workspace` / `graphql_delete_workspace` | Workspaces |
+| `graphql_create_collection` / `graphql_update_collection` / `graphql_delete_collection` | Collections |
+| `graphql_create_column` / `graphql_update_column` / `graphql_delete_column` | Columns |
+| `graphql_create_document` / `graphql_update_document_data` / `graphql_replace_document_data` / `graphql_update_document_slug` / `graphql_delete_documents` / `graphql_duplicate_documents` | Documents |
+| `graphql_publish_document` / `graphql_rollback_document` | Document versions |
+| `graphql_create_page` / `graphql_update_page` / `graphql_delete_page` | Pages |
+| `graphql_*_page_section` / `graphql_replace_page_section_data` | Page sections |
+| `graphql_*_page_section_field` | Page section fields |
+| `graphql_update_page_seo` | Page SEO |
+| `graphql_*_page_redirect` | Page redirects |
+| `graphql_publish_page` / `graphql_rollback_page` | Page versions |
+| `graphql_update_organization` / `graphql_delete_organization` | Organization |
+| `graphql_update_member_role` / `graphql_remove_member` | Members |
+| `graphql_invite_members` / `graphql_cancel_invitation` | Invitations |
+| `graphql_update_profile` / `graphql_change_password` | Profile (API key owner) |
 
-Optional `stage` on each tool: `draft` or `published`. It only rewrites the last path segment when `UPSTREAM_GRAPHQL_URL` already ends with `/draft` or `/published`. Prefer **draft** for form writes.
+Optional `stage` on each tool: `draft` or `published`. It only rewrites the last path segment when `UPSTREAM_GRAPHQL_URL` already ends with `/draft` or `/published`. Prefer **draft** for writes.
 
-## Form mutations
-
-Forms are not draft/published-versioned; stage only selects the endpoint and ACL key suffix. The API key needs stage `access` plus:
-
-| Tool | Resource action |
-|---|---|
-| `graphql_create_form` | `create` on `cms:forms` |
-| `graphql_update_form` | `update` on `cms:forms:<formId>` |
-| `graphql_delete_form` | `delete` on `cms:forms:<formId>` |
-| section / field tools | `update` on `cms:forms:<formId>` |
-
-Example (create):
-
-```json
-{
-  "input": {
-    "internalName": "contact-us",
-    "description": "Site contact form"
-  },
-  "stage": "draft"
-}
-```
-
-Example (add field):
-
-```json
-{
-  "formInternalName": "contact-us",
-  "input": {
-    "formId": "<form-id>",
-    "formSectionId": "<section-id>",
-    "name": "email",
-    "label": "Email",
-    "type": "text",
-    "required": true
-  },
-  "stage": "draft"
-}
-```
-
-Field `type` values: `text`, `paragraph`, `number`, `multiSelect`, `select`, `file`, `date`, `time`.
-
-You can still run the same operations via `graphql_query` with a `mutation { … }` document; the dedicated tools are preferred for structured args.
+Mutations are **not** draft/published-versioned; stage only selects the endpoint and ACL key suffix. Versioned GraphQL endpoints remain read-only. Dedicated tools map 1:1 to CMS `Mutation` fields documented in `docs/graphql.md`. You can still run the same operations via `graphql_query`; dedicated tools are preferred for structured args.
 
 ## Setup
 
@@ -116,6 +81,6 @@ Reload MCP after changing env or this server.
 ## Notes
 
 - CMS GraphQL rejects browser `Origin` / CORS / cookies on the CMS origin. This server is a Node S2S client.
-- `graphql_list_types` and `graphql_describe_type` need an API key with the stage `introspect` permission; otherwise complexity limits may reject introspection. Form mutation tools do **not** require introspection.
-- Mutation fields are omitted from the compiled schema when the key has no form write ACL; tools will then return GraphQL validation errors.
+- `graphql_list_types` and `graphql_describe_type` need an API key with the stage `introspect` permission; otherwise complexity limits may reject introspection. Mutation tools do **not** require introspection.
+- Mutation fields are omitted from the compiled schema when the key lacks the matching write ACL; tools will then return GraphQL validation errors.
 - Keep HMAC secrets out of agent transcripts and client configs; put them only in `mcp/.env`.
