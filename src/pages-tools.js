@@ -405,7 +405,7 @@ export function registerPagesMutationTools(server, config, requestGraphql) {
     name: "graphql_create_page_section_field",
     title: "Create page section field",
     description:
-      "Mutation createPageSectionField. Requires update on cms:workspaces:sites:pages:sections:fields:<workspaceId>. fieldId is create-only.",
+      "Mutation createPageSectionField. Requires update on cms:workspaces:sites:pages:sections:fields:<workspaceId>. fieldId is create-only. Rejects type sub-collection — use graphql_add_page_sub_collection.",
     inputSchema: { input: pageSectionFieldCreateInputSchema },
     operationName: "McpCreatePageSectionField",
     query: `mutation McpCreatePageSectionField($input: pageSectionFieldCreateInput!) {
@@ -443,7 +443,7 @@ export function registerPagesMutationTools(server, config, requestGraphql) {
     name: "graphql_delete_page_section_field",
     title: "Delete page section field",
     description:
-      "Mutation deletePageSectionField. Requires update on cms:workspaces:sites:pages:sections:fields:<workspaceId>.",
+      "Mutation deletePageSectionField. Requires update on cms:workspaces:sites:pages:sections:fields:<workspaceId>. Rejects sub-collection fields — use graphql_remove_page_sub_collection.",
     inputSchema: {
       id: z.string().min(1),
       workspaceId: z.string().min(1),

@@ -12,6 +12,7 @@ import { registerFormSubmissionMutationTools } from "./form-submissions-tools.js
 import { registerFormsMutationTools } from "./forms-tools.js"
 import { registerOrganizationMutationTools } from "./organization-tools.js"
 import { registerPagesMutationTools } from "./pages-tools.js"
+import { registerSubCollectionsMutationTools } from "./sub-collections-tools.js"
 import { registerWorkspacesMutationTools } from "./workspaces-tools.js"
 import {
   DESCRIBE_TYPE_QUERY,
@@ -199,6 +200,7 @@ export function registerGraphqlTools(server, config) {
   registerCollectionsMutationTools(server, config, requestGraphql)
   registerColumnsMutationTools(server, config, requestGraphql)
   registerDocumentsMutationTools(server, config, requestGraphql)
+  registerSubCollectionsMutationTools(server, config, requestGraphql)
   registerPagesMutationTools(server, config, requestGraphql)
   registerOrganizationMutationTools(server, config, requestGraphql)
 }

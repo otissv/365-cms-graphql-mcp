@@ -72,7 +72,7 @@ export function registerColumnsMutationTools(server, config, requestGraphql) {
     name: "graphql_create_column",
     title: "Create column",
     description:
-      "Mutation createColumn. Requires update on cms:workspaces:collections:columns:<collectionId>. fieldId is create-only.",
+      "Mutation createColumn. Requires update on cms:workspaces:collections:columns:<collectionId>. fieldId is create-only. Rejects type sub-collection — use graphql_add_document_sub_collection.",
     inputSchema: { input: columnCreateInputSchema },
     operationName: "McpCreateColumn",
     query: `mutation McpCreateColumn($input: columnCreateInput!) {
@@ -108,7 +108,7 @@ export function registerColumnsMutationTools(server, config, requestGraphql) {
     name: "graphql_delete_column",
     title: "Delete column",
     description:
-      "Mutation deleteColumn. Requires update on cms:workspaces:collections:columns:<collectionId>. Identifies row by fieldId; returns fieldId.",
+      "Mutation deleteColumn. Requires update on cms:workspaces:collections:columns:<collectionId>. Identifies row by fieldId; returns fieldId. Rejects sub-collection columns — use graphql_remove_document_sub_collection.",
     inputSchema: {
       fieldId: z.string().min(1),
       workspaceId: z.string().min(1),

@@ -5,7 +5,6 @@ const collectionTypeSchema = z.enum(["multiple", "single"])
 
 const collectionCreateInputSchema = z.object({
   workspaceId: z.string().min(1),
-  parentCollectionId: z.string().min(1).optional(),
   slug: z.string().min(1),
   name: z.string().min(1),
   internalName: z.string().min(1),
@@ -15,7 +14,6 @@ const collectionCreateInputSchema = z.object({
 })
 
 const collectionUpdateInputSchema = z.object({
-  parentCollectionId: z.string().min(1).optional(),
   slug: z.string().min(1).optional(),
   name: z.string().min(1).optional(),
   internalName: z.string().min(1).optional(),

@@ -17,7 +17,8 @@ This folder is outside the CMS pnpm workspace (`ignore-workspace=true`). It is n
 | `graphql_create_form_submission` / `graphql_delete_form_submission` | Form submissions |
 | `graphql_create_workspace` / `graphql_update_workspace` / `graphql_delete_workspace` | Workspaces |
 | `graphql_create_collection` / `graphql_update_collection` / `graphql_delete_collection` | Collections |
-| `graphql_create_column` / `graphql_update_column` / `graphql_delete_column` | Columns |
+| `graphql_create_column` / `graphql_update_column` / `graphql_delete_column` | Columns (not for `sub-collection` type) |
+| `graphql_add_document_sub_collection` / `graphql_add_page_sub_collection` / `graphql_remove_document_sub_collection` / `graphql_remove_page_sub_collection` | Sub-collections (orchestrated) |
 | `graphql_create_document` / `graphql_update_document_data` / `graphql_replace_document_data` / `graphql_update_document_slug` / `graphql_delete_documents` / `graphql_duplicate_documents` | Documents |
 | `graphql_publish_document` / `graphql_rollback_document` | Document versions |
 | `graphql_create_page` / `graphql_update_page` / `graphql_delete_page` | Pages |

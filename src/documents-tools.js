@@ -4,6 +4,7 @@ import { jsonSchema, registerMutationTool } from "./shared.js"
 const documentCreateInputSchema = z.object({
   workspaceId: z.string().min(1),
   collectionId: z.string().min(1),
+  parentDocumentId: z.string().min(1).optional(),
   slug: z.string().optional(),
   data: jsonSchema.optional(),
   errors: jsonSchema.optional(),
@@ -29,6 +30,7 @@ const DOCUMENT_SELECTION = `{
   id
   workspaceId
   collectionId
+  parentDocumentId
   slug
   data
   errors
