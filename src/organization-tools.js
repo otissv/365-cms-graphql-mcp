@@ -112,7 +112,7 @@ export function registerOrganizationMutationTools(
     name: "graphql_update_member_role",
     title: "Update member role",
     description:
-      "Mutation updateMemberRole. Requires update on cms:organization:members:<memberId>. Role is a free-form string (owner|admin|member|viewer or custom).",
+      "Mutation updateMemberRole. Requires update on cms:organization:members:<memberId>. Role is a free-form string (owner|admin|member or custom).",
     inputSchema: {
       id: z.string().min(1),
       input: memberRoleUpdateInputSchema,
