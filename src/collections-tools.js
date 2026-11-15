@@ -10,7 +10,7 @@ const collectionCreateInputSchema = z.object({
   internalName: z.string().min(1),
   type: collectionTypeSchema,
   description: z.string().optional(),
-  permission: z.string().optional(),
+  visibility: z.string().optional(),
 })
 
 const collectionUpdateInputSchema = z.object({
@@ -18,7 +18,7 @@ const collectionUpdateInputSchema = z.object({
   name: z.string().min(1).optional(),
   internalName: z.string().min(1).optional(),
   description: z.string().optional(),
-  permission: z.string().optional(),
+  visibility: z.string().optional(),
   columnOrder: z.array(z.string()).optional(),
 })
 

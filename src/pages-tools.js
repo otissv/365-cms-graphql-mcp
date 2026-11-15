@@ -17,7 +17,7 @@ const pageCreateInputSchema = z.object({
   navLabel: z.string().optional(),
   menuHidden: z.boolean().optional(),
   sitemapHidden: z.boolean().optional(),
-  permission: z.string().optional(),
+  visibility: z.string().optional(),
   errors: jsonSchema.optional(),
 })
 

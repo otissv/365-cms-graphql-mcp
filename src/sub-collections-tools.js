@@ -49,7 +49,7 @@ const subCollectionCreateSchema = z.object({
   internalName: z.string().min(1),
   type: collectionTypeSchema,
   description: z.string().optional(),
-  permission: z.string().optional(),
+  visibility: z.string().optional(),
   documentId: z.string().min(1).optional(),
   pageId: z.string().min(1).optional(),
   sectionId: z.string().min(1).optional(),

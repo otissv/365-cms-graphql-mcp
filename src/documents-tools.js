@@ -8,7 +8,7 @@ const documentCreateInputSchema = z.object({
   slug: z.string().optional(),
   data: jsonSchema.optional(),
   errors: jsonSchema.optional(),
-  permission: z.string().optional(),
+  visibility: z.string().optional(),
   description: z.string().optional(),
 })
 
@@ -34,7 +34,7 @@ const DOCUMENT_SELECTION = `{
   slug
   data
   errors
-  permission
+  visibility
   description
   notes
   status
