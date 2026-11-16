@@ -41,7 +41,7 @@ Mutations are **not** draft/published-versioned; stage only selects the endpoint
 ```bash
 cd mcp
 cp .env.example .env
-# Set CMS_GRAPHQL_API_KEY, CMS_GRAPHQL_API_SECRET_B64, and UPSTREAM_GRAPHQL_URL
+# Set CMS_API_KEY, CMS_API_SECRET, and UPSTREAM_GRAPHQL_URL
 # e.g. UPSTREAM_GRAPHQL_URL=http://localhost:3000/api/cms/graphql/draft
 pnpm install
 pnpm start
@@ -51,8 +51,8 @@ pnpm start
 
 ## Required environment variables
 
-- `CMS_GRAPHQL_API_KEY` — CMS API key (server-only in this process)
-- `CMS_GRAPHQL_API_SECRET_B64` — base64 HMAC secret for that key (server-only in this process)
+- `CMS_API_KEY` — CMS API key (server-only in this process)
+- `CMS_API_SECRET` — base64 HMAC secret for that key (server-only in this process)
 - `UPSTREAM_GRAPHQL_URL` — CMS stage endpoint (default `http://localhost:3000/api/cms/graphql/published`)
 
 Signing follows `docs/graphql.md` (`METHOD`, `PATH_WITH_QUERY`, body hash, nonce, timestamp). Requests are POST JSON only.

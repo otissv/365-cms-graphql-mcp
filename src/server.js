@@ -3,15 +3,15 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { registerGraphqlTools } from "./tools.js"
 
-const apiKey = process.env.CMS_GRAPHQL_API_KEY
-const secretB64 = process.env.CMS_GRAPHQL_API_SECRET_B64
+const apiKey = process.env.CMS_API_KEY
+const secretB64 = process.env.CMS_API_SECRET
 const upstreamRaw =
   process.env.UPSTREAM_GRAPHQL_URL ||
   "http://localhost:3000/api/cms/graphql/published"
 
 if (!apiKey || !secretB64) {
   console.error(
-    "Missing required env vars: CMS_GRAPHQL_API_KEY and CMS_GRAPHQL_API_SECRET_B64"
+    "Missing required env vars: CMS_API_KEY and CMS_API_SECRET"
   )
   process.exit(1)
 }
